@@ -62,6 +62,10 @@ export function usePromiseInterval<DATA, TYPE extends string>(props: IUsePromise
         }
       }).catch(error => {
         if (error === undefined) return;
+        if (isProcessingRef.current === false) {
+          clearTimeout(timeoutRef.current);
+          return;
+        }
         settingTimeout();
       }).finally(() => {
         isPromiseExecutingRef.current = false;
